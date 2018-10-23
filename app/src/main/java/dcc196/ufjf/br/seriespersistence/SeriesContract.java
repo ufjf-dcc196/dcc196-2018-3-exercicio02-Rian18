@@ -14,6 +14,6 @@ public class SeriesContract {
                 + Serie.COLUMN_NAME_TEMPORADA+ " TEXT,"
                 + Serie.COLUMN_NAME_EPISODIO+ " INTEGER"
                 +")";
-        public final static String DROP_LIVRO = "DROP TABLE IF EXISTS "+Serie.TABLE_NAME;
+        public final static String DROP_SERIE = "DROP TABLE IF EXISTS "+Serie.TABLE_NAME;
     }
 }
