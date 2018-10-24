@@ -2,7 +2,7 @@ package dcc196.ufjf.br.seriespersistence;
 
 import android.provider.BaseColumns;
 
-public class SeriesContract {
+public final class SeriesContract {
     public final class Serie implements BaseColumns {
         public final static String TABLE_NAME = "Serie";
         public final static String COLUMN_NAME_SERIE = "nome";
@@ -12,7 +12,7 @@ public class SeriesContract {
                 + Serie._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + Serie.COLUMN_NAME_SERIE+ " TEXT, "
                 + Serie.COLUMN_NAME_TEMPORADA+ " TEXT,"
-                + Serie.COLUMN_NAME_EPISODIO+ " INTEGER"
+                + Serie.COLUMN_NAME_EPISODIO+ " TEXT"
                 +")";
         public final static String DROP_SERIE = "DROP TABLE IF EXISTS "+Serie.TABLE_NAME;
     }

@@ -14,7 +14,7 @@ public class SeriesDBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-
+        db.execSQL(SeriesContract.Serie.CREATE_SERIE);
     }
 
     @Override
