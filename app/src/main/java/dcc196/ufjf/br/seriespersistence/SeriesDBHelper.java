@@ -27,4 +27,9 @@ public class SeriesDBHelper extends SQLiteOpenHelper {
     public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         onUpgrade(db, oldVersion, newVersion);
     }
+
+
+    public boolean excluir(SQLiteDatabase db,int id){
+        return db.delete(SeriesContract.Serie.TABLE_NAME, "ID=?", new String[]{ id + "" }) > 0;
+    }
 }

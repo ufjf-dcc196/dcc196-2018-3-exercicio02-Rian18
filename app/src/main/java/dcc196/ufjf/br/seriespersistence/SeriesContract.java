@@ -16,4 +16,6 @@ public final class SeriesContract {
                 +")";
         public final static String DROP_SERIE = "DROP TABLE IF EXISTS "+Serie.TABLE_NAME;
     }
+
+
 }

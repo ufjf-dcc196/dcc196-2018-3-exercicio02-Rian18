@@ -7,12 +7,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 class SerieAdapter extends RecyclerView.Adapter<SerieAdapter.ViewHolder>
 {
     private Cursor cursor;
     public SerieAdapter(Cursor c){cursor = c;}
+
+
 
     public void setCursor(Cursor c){
         cursor = c;
@@ -23,6 +26,7 @@ class SerieAdapter extends RecyclerView.Adapter<SerieAdapter.ViewHolder>
     public SerieAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
+
         View serieView = inflater.inflate(R.layout.layout_series, parent, false);
         ViewHolder holder = new ViewHolder(serieView);
         return holder;
@@ -36,9 +40,10 @@ class SerieAdapter extends RecyclerView.Adapter<SerieAdapter.ViewHolder>
         cursor.moveToPosition(position);
         holder.txt_Serie.setText(cursor.getString(idxSerie));
         holder.txt_Temporada.setText(cursor.getString(idxTemporada));
-        holder.txt_Episodio.setText(String.valueOf(cursor.getInt(idxEpisodio)));
+        holder.txt_Episodio.setText(cursor.getString(idxEpisodio));
 
     }
+
 
     @Override
     public int getItemCount() {
@@ -56,5 +61,13 @@ class SerieAdapter extends RecyclerView.Adapter<SerieAdapter.ViewHolder>
             txt_Temporada = itemView.findViewById(R.id.txt_Temporada_layout);
             txt_Episodio = itemView.findViewById(R.id.txt_Episodio_layout);
         }
+    }
+
+
+
+    public int getItem()
+    {
+        return cursor.getPosition();
+
     }
 }

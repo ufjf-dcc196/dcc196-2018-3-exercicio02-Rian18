@@ -1,8 +1,10 @@
 package dcc196.ufjf.br.seriespersistence;
 
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.provider.FontsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -55,6 +57,17 @@ public class MainActivity extends AppCompatActivity {
                 adapter.setCursor(getCursorSeries());
             }
         });
+
+
+
+        rclSeries.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+
 
         btnListar = (Button) findViewById(R.id.btnListar);
         btnListar.setOnClickListener(new View.OnClickListener() {
