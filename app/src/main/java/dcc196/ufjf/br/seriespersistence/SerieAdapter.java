@@ -14,7 +14,7 @@ class SerieAdapter extends RecyclerView.Adapter<SerieAdapter.ViewHolder>
 {
     private Cursor cursor;
     public SerieAdapter(Cursor c){cursor = c;}
-
+    private OnItemClickListener listener;
 
 
     public void setCursor(Cursor c){
@@ -34,10 +34,12 @@ class SerieAdapter extends RecyclerView.Adapter<SerieAdapter.ViewHolder>
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        int idxID = cursor.getColumnIndexOrThrow(SeriesContract.Serie.COLUMN_NAME_ID);
         int idxSerie = cursor.getColumnIndexOrThrow(SeriesContract.Serie.COLUMN_NAME_SERIE);
         int idxTemporada = cursor.getColumnIndexOrThrow(SeriesContract.Serie.COLUMN_NAME_TEMPORADA);
         int idxEpisodio = cursor.getColumnIndexOrThrow(SeriesContract.Serie.COLUMN_NAME_EPISODIO);
         cursor.moveToPosition(position);
+        holder.txt_id.setText(String.valueOf(cursor.getString(idxID)));
         holder.txt_Serie.setText(cursor.getString(idxSerie));
         holder.txt_Temporada.setText(cursor.getString(idxTemporada));
         holder.txt_Episodio.setText(cursor.getString(idxEpisodio));
@@ -50,19 +52,44 @@ class SerieAdapter extends RecyclerView.Adapter<SerieAdapter.ViewHolder>
         return cursor.getCount();
     }
 
+    public void setOnClickListener(OnItemClickListener listener)
+    {
+        this.listener = listener;
+    }
+
+
+
+    public interface OnItemClickListener{
+        void onItemClick(View view, int position);
+    }
+
     class ViewHolder extends RecyclerView.ViewHolder{
+        public TextView txt_id;
         public TextView txt_Serie;
         public TextView txt_Temporada;
         public TextView txt_Episodio;
 
-        public ViewHolder(View itemView) {
+        public ViewHolder(final View itemView) {
             super(itemView);
+            txt_id = itemView.findViewById(R.id.txt_id_layout);
             txt_Serie = itemView.findViewById(R.id.txt_Serie_layout);
             txt_Temporada = itemView.findViewById(R.id.txt_Temporada_layout);
             txt_Episodio = itemView.findViewById(R.id.txt_Episodio_layout);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listener != null)
+                    {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION)
+                        {
+                           listener.onItemClick(itemView, Integer.parseInt(txt_id.getText().toString()));
+                        }
+                    }
+                }
+            });
         }
     }
-
 
 
     public int getItem()
@@ -70,4 +97,5 @@ class SerieAdapter extends RecyclerView.Adapter<SerieAdapter.ViewHolder>
         return cursor.getPosition();
 
     }
+
 }

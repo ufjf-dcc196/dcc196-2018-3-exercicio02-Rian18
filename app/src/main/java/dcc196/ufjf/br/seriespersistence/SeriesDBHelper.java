@@ -5,7 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 public class SeriesDBHelper extends SQLiteOpenHelper {
-    public final static int DATABASE_VERSION = 1;
+    public final static int DATABASE_VERSION = 2;
     public final static String DATABASE_NAME = "Series.db";
 
     public SeriesDBHelper(Context context) {
@@ -29,7 +29,5 @@ public class SeriesDBHelper extends SQLiteOpenHelper {
     }
 
 
-    public boolean excluir(SQLiteDatabase db,int id){
-        return db.delete(SeriesContract.Serie.TABLE_NAME, "ID=?", new String[]{ id + "" }) > 0;
-    }
+
 }

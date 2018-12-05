@@ -21,8 +21,6 @@ public class MainActivity extends AppCompatActivity {
     private EditText txtNumTemporada;
     private EditText txtNumEpisodio;
     private Button btnInserir;
-    private Button btnListar;
-    private Button btnExcluir;
     private RecyclerView rclSeries;
     private SeriesDBHelper dbHelper;
     private SerieAdapter adapter;
@@ -32,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         dbHelper = new SeriesDBHelper(getApplicationContext());
+
+       // ApagarTabela();
 
         txtNomeSerie = (EditText) findViewById(R.id.txtSerie);
         txtNumTemporada = (EditText) findViewById(R.id.txtTemporada);
@@ -58,36 +58,17 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-
-        rclSeries.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-
-
-
-        btnListar = (Button) findViewById(R.id.btnListar);
-        btnListar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Cursor cursor = getCursorSeries();
-                cursor.moveToPosition(-1);
-                while(cursor.moveToNext()) {
-                    int idxSerie = cursor.getColumnIndexOrThrow(SeriesContract.Serie.COLUMN_NAME_SERIE);
-                    int idxTemporada = cursor.getColumnIndexOrThrow(SeriesContract.Serie.COLUMN_NAME_TEMPORADA);
-                    int idxEpisodio = cursor.getColumnIndexOrThrow(SeriesContract.Serie.COLUMN_NAME_EPISODIO);
-                    String serie = cursor.getString(idxSerie);
-                    String temporada = cursor.getString(idxTemporada);
-                    Integer episodio = cursor.getInt(idxEpisodio);
-                    Log.i("DBINFO", "série: " + serie+" temporada: "+temporada+" episódio:"+ episodio);
-                }
-            }
-        });
-        
-        
+       adapter.setOnClickListener(new SerieAdapter.OnItemClickListener() {
+           @Override
+           public void onItemClick(View view, int position) {
+               SQLiteDatabase db = dbHelper.getReadableDatabase();
+               String select = SeriesContract.Serie.COLUMN_NAME_ID +" = ?";
+               String [] selectArgs = {String.valueOf(position)};
+               db.delete(SeriesContract.Serie.TABLE_NAME, select, selectArgs);
+               adapter.notifyItemRemoved(position);
+               adapter.setCursor(getCursorSeries());
+           }
+       });
 
 
     }
@@ -95,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
     private Cursor getCursorSeries() {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         String[] visao = {
+                SeriesContract.Serie.COLUMN_NAME_ID,
                 SeriesContract.Serie.COLUMN_NAME_SERIE,
                 SeriesContract.Serie.COLUMN_NAME_TEMPORADA,
                 SeriesContract.Serie.COLUMN_NAME_EPISODIO,
@@ -102,7 +84,14 @@ public class MainActivity extends AppCompatActivity {
         };
 
         String sort = SeriesContract.Serie.COLUMN_NAME_SERIE+ " DESC";
+
         return db.query(SeriesContract.Serie.TABLE_NAME, visao,null,null,null,null, sort);
+    }
+
+    private void ApagarTabela()
+    {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        db.execSQL(SeriesContract.Serie.DROP_SERIE);
     }
 
 }
